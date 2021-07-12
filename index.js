@@ -62,13 +62,15 @@ async function getCollections() {
         },
       })
       .then(async (responseJson) => {
-        console.log(responseJson.data.data.collections.edges[0].node.title);
         if (responseJson.data.data.collections.edges.length > 0) {
           products.push(responseJson.data.data.collections.edges[0]);
           cursor = responseJson.data.data.collections.edges[0].cursor;
+          console.log(responseJson.data.data.collections.edges[0].node.title);
           if (cursor == "") {
             flag = false;
           }
+        } else {
+          flag = false;
         }
       });
   }
