@@ -22,6 +22,8 @@ async function getCollections() {
             edges {
               cursor
               node {
+                id
+                title
                 productType
               }
             }
@@ -35,6 +37,8 @@ async function getCollections() {
             edges {
               cursor
               node {
+                id
+                title
                 productType
               }
             }
@@ -57,6 +61,7 @@ async function getCollections() {
               item.node.productType ==
               responseJson.data.data.products.edges[0].node.productType
           );
+          console.log(responseJson.data.data.products.edges[0].node.id);
           console.log(
             responseJson.data.data.products.edges[0].node.productType
           );
