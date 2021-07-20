@@ -18,36 +18,24 @@ async function getCollections() {
       let filter = `first:1,after:"${cursor}"`;
       query = JSON.stringify({
         query: `{
-        collections(${filter})
-        {
-          edges{
-            cursor
-            node {
-              title
-              description
-              image {
-                id
-                originalSrc
+          products(${filter}) {
+            edges {
+              cursor
+              node {
+                productType
               }
             }
           }
-        }
-      }`,
+        }`,
       });
     } else {
       query = JSON.stringify({
         query: `{
-          collections(first:1)
-          {
-            edges{
+          products(first:1) {
+            edges {
               cursor
               node {
-                title
-                description
-                image {
-                  id
-                  originalSrc
-                }
+                productType
               }
             }
           }
@@ -62,10 +50,23 @@ async function getCollections() {
         },
       })
       .then(async (responseJson) => {
-        if (responseJson.data.data.collections.edges.length > 0) {
-          products.push(responseJson.data.data.collections.edges[0]);
-          cursor = responseJson.data.data.collections.edges[0].cursor;
-          console.log(responseJson.data.data.collections.edges[0].node.title);
+        if (responseJson.data.data.products.edges.length > 0) {
+          let temp = [...products];
+          const t = await temp.filter(
+            (item, index) =>
+              item.node.productType ==
+              responseJson.data.data.products.edges[0].node.productType
+          );
+          console.log(
+            responseJson.data.data.products.edges[0].node.productType
+          );
+
+          cursor = responseJson.data.data.products.edges[0].cursor;
+          if (t.length > 0) {
+            console.log("-The product type already saved");
+            return;
+          }
+          products.push(responseJson.data.data.products.edges[0]);
           if (cursor == "") {
             flag = false;
           }
