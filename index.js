@@ -8,8 +8,8 @@ let products = [];
 let flag = true;
 let i = 201;
 
-const shop = "shoclef-gold.myshopify.com";
-const accessToken = "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";
+const shop = "shoclef-blue.myshopify.com";
+const accessToken = "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";
 let cursor = "";
 let query = "";
 async function getCollections() {
