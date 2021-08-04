@@ -18,13 +18,15 @@ async function getCollections() {
       let filter = `first:1,after:"${cursor}"`;
       query = JSON.stringify({
         query: `{
-          products(${filter}) {
-            edges {
+          collections(${filter}) {
+            edges{
               cursor
               node {
-                id
                 title
-                productType
+                description
+                image{
+                  originalSrc
+                }
               }
             }
           }
@@ -33,13 +35,15 @@ async function getCollections() {
     } else {
       query = JSON.stringify({
         query: `{
-          products(first:1) {
-            edges {
+          collections(first:1) {
+            edges{
               cursor
               node {
-                id
                 title
-                productType
+                description
+                image{
+                  originalSrc
+                }
               }
             }
           }
@@ -54,27 +58,9 @@ async function getCollections() {
         },
       })
       .then(async (responseJson) => {
-        if (responseJson.data.data.products.edges.length > 0) {
+        if (responseJson.data.data.collections.edges.length > 0) {
           let temp = [...products];
-          const t = await temp.filter(
-            (item, index) =>
-              item.node.productType ==
-              responseJson.data.data.products.edges[0].node.productType
-          );
-          console.log(responseJson.data.data.products.edges[0].node.id);
-          console.log(
-            responseJson.data.data.products.edges[0].node.productType
-          );
-
-          cursor = responseJson.data.data.products.edges[0].cursor;
-          if (t.length > 0) {
-            console.log("-The product type already saved");
-            return;
-          }
-          products.push(responseJson.data.data.products.edges[0]);
-          if (cursor == "") {
-            flag = false;
-          }
+          temp.push(responseJson.data.data.collections.edges);
         } else {
           flag = false;
         }
