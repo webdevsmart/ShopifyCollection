@@ -60,8 +60,8 @@ async function getCollections() {
       .then(async (responseJson) => {
         if (responseJson.data.data.collections.edges.length > 0) {
           let temp = [...products];
-          console.log(responseJson.data.data.collections.edges[0].title);
-          temp.push(responseJson.data.data.collections.edges[0]);
+          console.log(responseJson.data.data.collections.edges[0].node.title);
+          temp.push(responseJson.data.data.collections.edges[0].node);
           cursor = responseJson.data.data.collections.edges[0].cursor;
           if (cursor == "") {
             flag = false;
